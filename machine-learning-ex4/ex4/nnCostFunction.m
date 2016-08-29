@@ -62,8 +62,14 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
-
+a1 = [ones(m, 1) X];
+a2 = [ones(m, 1) sigmoid(a1 * Theta1')];
+a3 = sigmoid(a2 * Theta2');
+tag = repmat([1 : num_labels], m, 1) == repmat(y, 1, num_labels);
+J_each = -tag .* log(a3) - (1 - tag) .* log(1 - a3);
+Theta1_no_bias = Theta1(:, 2:end);
+Theta2_no_bias = Theta2(:, 2:end);
+J = 1 / m * sum(sum(J_each)) + (lambda / (2 * m)) * (sum(sum(Theta1_no_bias .^ 2)) + sum(sum(Theta2_no_bias .^ 2)));
 
 
 
