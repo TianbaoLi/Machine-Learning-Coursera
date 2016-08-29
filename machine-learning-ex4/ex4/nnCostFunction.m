@@ -74,19 +74,24 @@ J = 1 / m * sum(sum(J_each)) + (lambda / (2 * m)) * (sum(sum(Theta1_no_bias .^ 2
 Delta1 = zeros(size(Theta1));
 Delta2 = zeros(size(Theta2));
 
-for i = 1 : m,
+for t = 1 : m,
+  t_a1 = a1(t, :)';
+  t_a2 = a2(t, :)';
+  t_a3 = a3(t, :)';
+  t_tag = tag(t, :)';
+  t_J_each = J_each(t, :)';
+  d3 = t_a3 - t_tag;
+  t_z2 = [1; Theta1 * t_a1];
+  d2 = Theta2' * d3 .* sigmoidGradient(t_z2);
   
+  Delta1 = Delta1 + d2(2 : end) * t_a1';
+  Delta2 = Delta2 + d3 * t_a2';
 end;
 
-
-
-
-
-
-
-
-
-
+Theta1_zero_bias = [ zeros(size(Theta1, 1), 1) Theta1_no_bias ];
+Theta2_zero_bias = [ zeros(size(Theta2, 1), 1) Theta2_no_bias ];
+Theta1_grad = (1 / m) * Delta1 + (lambda / m) * Theta1_zero_bias;
+Theta2_grad = (1 / m) * Delta2 + (lambda / m) * Theta2_zero_bias;
 
 
 % -------------------------------------------------------------
