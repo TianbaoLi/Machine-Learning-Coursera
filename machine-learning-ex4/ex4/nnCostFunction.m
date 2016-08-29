@@ -71,9 +71,12 @@ Theta1_no_bias = Theta1(:, 2:end);
 Theta2_no_bias = Theta2(:, 2:end);
 J = 1 / m * sum(sum(J_each)) + (lambda / (2 * m)) * (sum(sum(Theta1_no_bias .^ 2)) + sum(sum(Theta2_no_bias .^ 2)));
 
+Delta1 = zeros(size(Theta1));
+Delta2 = zeros(size(Theta2));
 
-
-
+for i = 1 : m,
+  
+end;
 
 
 
